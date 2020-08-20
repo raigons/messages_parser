@@ -8,9 +8,9 @@ defmodule Parser.Parser do
   end
 
   defp extract_datetime(raw_message) do
-    with [datetime, _] <- Regex.run(~r/[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4})(?!\d) \d+:\d+:\d+/, raw_message),
-         {:ok, datetime} <- Timex.parse(datetime, "{0D}/{0M}/{YY} {h24}:{m}:{s}")
-    do
+    with [datetime, _] <-
+           Regex.run(~r/[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4})(?!\d) \d+:\d+:\d+/, raw_message),
+         {:ok, datetime} <- Timex.parse(datetime, "{0D}/{0M}/{YY} {h24}:{m}:{s}") do
       datetime
     else
       {:error, _message} -> nil
