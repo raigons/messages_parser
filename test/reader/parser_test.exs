@@ -1,7 +1,7 @@
-defmodule Parser.ParserTest do
+defmodule Reader.ParserTest do
   use ExUnit.Case
 
-  alias Parser.Parser
+  alias Reader.Parser
 
   @raw_message "[11/05/18 02:16:21] Ramon Gonçalves: Hello world!"
 

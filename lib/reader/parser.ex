@@ -1,4 +1,4 @@
-defmodule Parser.Parser do
+defmodule Reader.Parser do
   def parse_message(raw_message) do
     %Message{}
     |> extract_datetime(raw_message)
