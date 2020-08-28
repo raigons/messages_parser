@@ -48,6 +48,7 @@ defmodule Repository.RecordTest do
         author: "Ramon Gonçalves",
         content: "Hi, I wanna talk to you in 25/12/2020: test ;)"
       }
+
       author_2_message = %Message{
         datetime: ~N[2020-12-09 22:09:20],
         author: "John Doe",
@@ -67,16 +68,19 @@ defmodule Repository.RecordTest do
         author: "Ramon Gonçalves",
         content: "Hi, I wanna talk to you in 25/12/2020: test ;)"
       }
+
       author_1_message_2 = %Message{
         datetime: ~N[2020-12-09 22:15:20],
         author: "Ramon Gonçalves",
         content: "lorem ipsum dolor sit amet"
       }
+
       author_2_message = %Message{
         datetime: ~N[2020-12-09 22:09:20],
         author: "John Doe",
         content: "Ok. I call you"
       }
+
       author_2_message_2 = %Message{
         datetime: ~N[2020-12-09 22:16:20],
         author: "John Doe",
@@ -88,7 +92,11 @@ defmodule Repository.RecordTest do
       Record.save(record, "John Doe", author_2_message)
       Record.save(record, "John Doe", author_2_message_2)
 
-      assert Record.get_by_author(record, "Ramon Gonçalves") == [author_1_message, author_1_message_2]
+      assert Record.get_by_author(record, "Ramon Gonçalves") == [
+               author_1_message,
+               author_1_message_2
+             ]
+
       assert Record.get_by_author(record, "John Doe") == [author_2_message, author_2_message_2]
     end
   end
