@@ -51,4 +51,41 @@ defmodule Reader.MessageReaderTest do
              } == Agent.get(record, fn state -> state end)
     end
   end
+
+  describe "reads file with multiples message for different authors" do
+    file_name = "test/fixtures/sample_3.txt"
+
+    {:ok, record} = MessageReader.import(file_name)
+
+    john_messages = [
+      %Message{
+        author: "John Doe",
+        datetime: ~N[2020-08-25 02:16:21],
+        content: "Olá!"
+      },
+      %Message{
+        author: "John Doe",
+        content: "Some another message",
+        datetime: ~N[2020-08-25 03:59:50]
+      }
+    ]
+
+    ramon_messages = [
+      %Message{
+        author: "Ramon",
+        content: "Hi!",
+        datetime: ~N[2020-08-25 02:16:21]
+      },
+      %Message{
+        author: "Ramon",
+        content: "Another message",
+        datetime: ~N[2020-08-25 02:16:34]
+      }
+    ]
+
+    assert %{
+             "John Doe" => john_messages,
+             "Ramon" => ramon_messages
+           } == Agent.get(record, fn messages -> messages end)
+  end
 end
