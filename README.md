@@ -1,21 +1,17 @@
 # MessagesParser
-
-**TODO: Add description**
+Parses exported messages from whatsapp in order to extract informations over conversations.
+It is still very 'dumb' and got little functionalities.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `messages_parser` to your list of dependencies in `mix.exs`:
+### Docker
+To run you can execute two files to create the container, under `infra/scripts`, which are `build_local_container.sh` and
+`build_and_get_int_iex.sh`. THe former just run the container and connect to its shell, latter connect direct into container `iex`
 
-```elixir
-def deps do
-  [
-    {:messages_parser, "~> 0.1.0"}
-  ]
-end
+### Local
+Run, sequentially:
+
+```shell
+$ mix deps.get
+$ iex -S mix
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/messages_parser](https://hexdocs.pm/messages_parser).
-

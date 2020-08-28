@@ -1,0 +1,7 @@
+_build/
+deps/
+infra/
+.git/
+mix.lock
+
+README.md
