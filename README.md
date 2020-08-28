@@ -6,7 +6,7 @@ It is still very 'dumb' and got little functionalities.
 
 ### Docker
 To run you can execute two files to create the container, under `infra/scripts`, which are `build_local_container.sh` and
-`build_and_get_int_iex.sh`. THe former just run the container and connect to its shell, latter connect direct into container `iex`
+`build_and_get_int_iex.sh`. The former just run the container and connect to its shell, the latter connects directly into container's `iex`
 
 ### Local
 Run, sequentially:
