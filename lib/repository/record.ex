@@ -19,11 +19,6 @@ defmodule Repository.Record do
   Puts the `value` for the given `key` in the `record`.
   """
   def save(record, author, message) do
-    Agent.update(record, fn data ->
-      author_messages = (data[author] || []) ++ [message]
-      Map.merge(data, %{author => author_messages}, fn _k, previous_record, new_record ->
-        previous_record ++ new_record
-      end)
-    end)
+    Agent.update(record, &Map.put(&1, author, (&1[author] || []) ++ [message]))
   end
 end
