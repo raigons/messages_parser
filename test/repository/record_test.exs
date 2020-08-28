@@ -2,7 +2,6 @@ defmodule Repository.RecordTest do
   use ExUnit.Case, async: false
 
   alias Repository.Record
-  use Agent
 
   setup do
     {:ok, record} = Record.start_link([])
