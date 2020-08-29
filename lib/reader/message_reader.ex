@@ -4,16 +4,19 @@ defmodule Reader.MessageReader do
 
   def import(file_name) do
     {:ok, record} = Record.start_link([])
+    stream = build_stream(file_name, record)
 
-    with stream <- File.stream!(file_name),
-         stream <- Stream.map(stream, &String.trim/1),
-         stream <-
-           Stream.scan(stream, %Message{}, &store_message(record, Parser.parse_message(&1), &2)) do
-      case Stream.run(stream) do
-        :ok -> {:ok, record}
-        _ -> :error
-      end
+    case Stream.run(stream) do
+      :ok -> {:ok, record}
+      _ -> :error
     end
+  end
+
+  defp build_stream(file_name, record) do
+    file_name
+    |> File.stream!()
+    |> Stream.map(&String.trim/1)
+    |> Stream.scan(%Message{}, &store_message(record, Parser.parse_message(&1), &2))
   end
 
   defp store_message(_record, nil, last_inserted), do: last_inserted
