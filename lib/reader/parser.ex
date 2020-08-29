@@ -6,7 +6,7 @@ defmodule Reader.Parser do
       |> extract_author(raw_message)
       |> extract_content(raw_message)
     else
-      %Message{content: raw_message}
+      build_only_content_message(raw_message)
     end
   end
 
@@ -16,6 +16,9 @@ defmodule Reader.Parser do
       raw_message
     )
   end
+
+  defp build_only_content_message(raw_message = ""), do: nil
+  defp build_only_content_message(raw_message), do: %Message{content: raw_message}
 
   defp extract_datetime(message, raw_message) do
     with [datetime, _] <-

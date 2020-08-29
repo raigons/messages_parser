@@ -68,5 +68,11 @@ defmodule Reader.ParserTest do
                content: "This is a pure message with no data and author"
              } = Parser.parse_message(raw_message)
     end
+
+    test "returns nil when message is all null" do
+      raw_message = ""
+
+      assert nil == Parser.parse_message(raw_message)
+    end
   end
 end
