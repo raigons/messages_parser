@@ -18,16 +18,9 @@ defmodule Reader.MessageReader do
 
   defp store_message(_record, nil, last_inserted), do: last_inserted
 
-  defp store_message(
-         record,
-         message = %Message{author: nil, datetime: nil, content: _content},
-         last_inserted
-       ) do
-    store_message(
-      record,
-      %Message{message | author: last_inserted.author, datetime: last_inserted.datetime},
-      last_inserted
-    )
+  defp store_message(record, message = %Message{author: nil, datetime: nil}, last_inserted) do
+    message = %Message{message | author: last_inserted.author, datetime: last_inserted.datetime}
+    store_message(record, message, last_inserted)
   end
 
   defp store_message(record, message, _last_inserted) do
