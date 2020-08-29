@@ -1,11 +1,11 @@
 defmodule Reader.MessageReaderTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   use Agent
 
   alias Reader.MessageReader
 
-  describe "reads single line file" do
-    test "loads message from file and parse it" do
+  describe "import simple line messages" do
+    test "loads single message from file and parse it" do
       file_name = "test/fixtures/sample_1.txt"
 
       {:ok, record} = MessageReader.import(file_name)
@@ -20,10 +20,8 @@ defmodule Reader.MessageReaderTest do
                "John Doe" => [expected_message]
              } == Agent.get(record, fn state -> state end)
     end
-  end
 
-  describe "reads multiple line file for single author" do
-    test "loads messages from file" do
+    test "loads multiples messages from file for same author" do
       file_name = "test/fixtures/sample_2.txt"
 
       {:ok, record} = MessageReader.import(file_name)
@@ -50,42 +48,89 @@ defmodule Reader.MessageReaderTest do
                "Ramon" => expected_messages
              } == Agent.get(record, fn state -> state end)
     end
+
+    test "loads multiples messages for different authors" do
+      file_name = "test/fixtures/sample_3.txt"
+
+      {:ok, record} = MessageReader.import(file_name)
+
+      john_messages = [
+        %Message{
+          author: "John Doe",
+          datetime: ~N[2020-08-25 02:16:21],
+          content: "Olá!"
+        },
+        %Message{
+          author: "John Doe",
+          content: "Some another message",
+          datetime: ~N[2020-08-25 03:59:50]
+        }
+      ]
+
+      ramon_messages = [
+        %Message{
+          author: "Ramon",
+          content: "Hi!",
+          datetime: ~N[2020-08-25 02:16:21]
+        },
+        %Message{
+          author: "Ramon",
+          content: "Another message",
+          datetime: ~N[2020-08-25 02:16:34]
+        }
+      ]
+
+      assert %{
+               "John Doe" => john_messages,
+               "Ramon" => ramon_messages
+             } == Agent.get(record, fn messages -> messages end)
+    end
   end
 
-  describe "reads file with multiples message for different authors" do
-    file_name = "test/fixtures/sample_3.txt"
+  describe "import multiple lines messages" do
+    test "splits one multiline messages into one record per line with same datetime" do
+      file_name = "test/fixtures/sample_4.txt"
 
-    {:ok, record} = MessageReader.import(file_name)
+      {:ok, record} = MessageReader.import(file_name)
 
-    john_messages = [
-      %Message{
-        author: "John Doe",
-        datetime: ~N[2020-08-25 02:16:21],
-        content: "Olá!"
-      },
-      %Message{
-        author: "John Doe",
-        content: "Some another message",
-        datetime: ~N[2020-08-25 03:59:50]
-      }
-    ]
+      ramon_messages = [
+        %Message{
+          author: "Ramon",
+          datetime: ~N[2018-05-15 09:18:43],
+          content:
+            "Galera hoje esta rolando a votação da lei para legalização do cultivo caseiro de cannabis no Brasil para uso terapêutico e pessoal !!!"
+        },
+        %Message{
+          author: "Ramon",
+          datetime: ~N[2018-05-15 09:18:43],
+          content:
+            "Vamos apoiar a causa , corre lá , faz seu cadastro , confirma o e-mail e vota vota vota !!!!!!!"
+        },
+        %Message{
+          author: "Ramon",
+          datetime: ~N[2018-05-15 09:18:43],
+          content: "💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀"
+        },
+        %Message{
+          author: "Ramon",
+          datetime: ~N[2018-05-15 09:18:43],
+          content: "A união faz a força !!!!!"
+        },
+        %Message{
+          author: "Ramon",
+          datetime: ~N[2018-05-15 09:18:43],
+          content: "https://www12.senado.leg.br/ecidadania/visualizacaomateria?id=132047"
+        },
+        %Message{
+          author: "Ramon",
+          datetime: ~N[2018-05-15 09:18:43],
+          content: "Não deixem de votar !!! E muito importante mesmo !!!!!!!!!!"
+        }
+      ]
 
-    ramon_messages = [
-      %Message{
-        author: "Ramon",
-        content: "Hi!",
-        datetime: ~N[2020-08-25 02:16:21]
-      },
-      %Message{
-        author: "Ramon",
-        content: "Another message",
-        datetime: ~N[2020-08-25 02:16:34]
-      }
-    ]
-
-    assert %{
-             "John Doe" => john_messages,
-             "Ramon" => ramon_messages
-           } == Agent.get(record, fn messages -> messages end)
+      assert %{
+               "Ramon" => ramon_messages
+             } == Agent.get(record, fn messages -> messages end)
+    end
   end
 end
