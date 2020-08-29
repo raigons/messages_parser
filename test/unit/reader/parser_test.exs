@@ -59,12 +59,14 @@ defmodule Reader.ParserTest do
       %{raw_message: "This is a pure message with no data and author"}
     end
 
-    test "parses pure message and returns message with no datetime nor author info", %{raw_message: raw_message} do
+    test "parses pure message and returns message with no datetime nor author info", %{
+      raw_message: raw_message
+    } do
       assert %Message{
-        datetime: nil,
-        author: nil,
-        content: "This is a pure message with no data and author"
-      } = Parser.parse_message(raw_message)
+               datetime: nil,
+               author: nil,
+               content: "This is a pure message with no data and author"
+             } = Parser.parse_message(raw_message)
     end
   end
 end

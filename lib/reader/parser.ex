@@ -11,7 +11,10 @@ defmodule Reader.Parser do
   end
 
   defp check_default_format(raw_message) do
-    Regex.match?(~r/\[[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4}) \d+:\d+:\d+\]\s(.+?):\s(.+?)/, raw_message)
+    Regex.match?(
+      ~r/\[[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4}) \d+:\d+:\d+\]\s(.+?):\s(.+?)/,
+      raw_message
+    )
   end
 
   defp extract_datetime(message, raw_message) do
@@ -20,7 +23,7 @@ defmodule Reader.Parser do
          {:ok, datetime} <- Timex.parse(datetime, "{0D}/{0M}/{YY} {h24}:{m}:{s}") do
       %Message{message | datetime: datetime}
     else
-      {:error, error_message} -> IO.inspect error_message, label: "error"
+      {:error, error_message} -> IO.inspect(error_message, label: "error")
       nil -> message
     end
   end
