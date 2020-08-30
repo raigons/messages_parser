@@ -69,10 +69,10 @@ defmodule Reader.ParserTest do
              } = Parser.parse_message(raw_message)
     end
 
-    test "returns nil when message is all null" do
+    test "returns empty %Message{} when message is all null" do
       raw_message = ""
 
-      assert nil == Parser.parse_message(raw_message)
+      assert %Message{} == Parser.parse_message(raw_message)
     end
   end
 end

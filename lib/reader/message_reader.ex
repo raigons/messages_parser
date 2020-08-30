@@ -19,7 +19,8 @@ defmodule Reader.MessageReader do
     |> Stream.scan(%Message{}, &store_message(record, Parser.parse_message(&1), &2))
   end
 
-  defp store_message(_record, nil, last_inserted), do: last_inserted
+  defp store_message(_record, %Message{author: nil, datetime: nil, content: nil}, last_inserted),
+    do: last_inserted
 
   defp store_message(record, message = %Message{author: nil, datetime: nil}, last_inserted) do
     message = %Message{message | author: last_inserted.author, datetime: last_inserted.datetime}
