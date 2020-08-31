@@ -17,7 +17,7 @@ defmodule Reader.Parser do
     )
   end
 
-  defp build_only_content_message(raw_message = ""), do: %Message{}
+  defp build_only_content_message(_raw_message = ""), do: %Message{}
   defp build_only_content_message(raw_message), do: %Message{content: raw_message}
 
   defp extract_datetime(message, raw_message) do
