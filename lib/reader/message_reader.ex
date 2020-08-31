@@ -16,8 +16,12 @@ defmodule Reader.MessageReader do
     file_name
     |> File.stream!()
     |> Stream.map(&String.trim/1)
+    |> Stream.filter(&reject_empty_line/1)
     |> Stream.scan(%Message{}, &store_message(record, Parser.parse_message(&1), &2))
   end
+
+  defp reject_empty_line(""), do: false
+  defp reject_empty_line(_line), do: true
 
   defp store_message(_record, %Message{author: nil, datetime: nil, content: nil}, last_inserted),
     do: last_inserted
