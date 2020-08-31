@@ -18,7 +18,7 @@ defmodule Repository.Record do
   @doc """
   Puts the `value` for the given `key` in the `record`.
   """
-  def save(record, author, new_message) do
-    Agent.update(record, &Map.put(&1, author, (&1[author] || []) ++ [new_message]))
+  def save(record, author, message) do
+    Agent.update(record, &Map.put(&1, author, [message] ++ (&1[author] || [])))
   end
 end

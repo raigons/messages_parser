@@ -45,7 +45,7 @@ defmodule Reader.MessageReaderTest do
       ]
 
       assert %{
-               "Ramon" => expected_messages
+               "Ramon" => Enum.reverse(expected_messages)
              } == Agent.get(record, fn state -> state end)
     end
 
@@ -81,8 +81,8 @@ defmodule Reader.MessageReaderTest do
       ]
 
       assert %{
-               "John Doe" => john_messages,
-               "Ramon" => ramon_messages
+               "John Doe" => Enum.reverse(john_messages),
+               "Ramon" => Enum.reverse(ramon_messages)
              } == Agent.get(record, fn messages -> messages end)
     end
   end
@@ -129,7 +129,7 @@ defmodule Reader.MessageReaderTest do
       {:ok, record} = MessageReader.import(file_name)
 
       assert %{
-               "Ramon" => ramon_messages
+               "Ramon" => Enum.reverse(ramon_messages)
              } == Agent.get(record, fn messages -> messages end)
     end
 
@@ -192,8 +192,8 @@ defmodule Reader.MessageReaderTest do
       {:ok, record} = MessageReader.import(file_name)
 
       assert %{
-               "John Doe" => john_messages,
-               "Ramon" => ramon_messages
+               "John Doe" => Enum.reverse(john_messages),
+               "Ramon" => Enum.reverse(ramon_messages)
              } == Agent.get(record, fn messages -> messages end)
     end
   end

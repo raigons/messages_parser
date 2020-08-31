@@ -32,7 +32,8 @@ defmodule Reader.MessageReader do
   end
 
   defp store_message(record, message, _last_inserted) do
-    Record.save(record, message.author, message)
+    %Message{author: author} = message
+    Record.save(record, author, message)
     message
   end
 end

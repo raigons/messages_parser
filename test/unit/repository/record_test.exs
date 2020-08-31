@@ -36,7 +36,7 @@ defmodule Repository.RecordTest do
       Record.save(record, "Ramon Gonçalves", message)
       Record.save(record, "Ramon Gonçalves", message_2)
 
-      assert Record.get_by_author(record, "Ramon Gonçalves") == [message, message_2]
+      assert Record.get_by_author(record, "Ramon Gonçalves") == [message_2, message]
     end
   end
 
@@ -92,11 +92,11 @@ defmodule Repository.RecordTest do
       Record.save(record, "John Doe", author_2_message_2)
 
       assert Record.get_by_author(record, "Ramon Gonçalves") == [
-               author_1_message,
-               author_1_message_2
+               author_1_message_2,
+               author_1_message
              ]
 
-      assert Record.get_by_author(record, "John Doe") == [author_2_message, author_2_message_2]
+      assert Record.get_by_author(record, "John Doe") == [author_2_message_2, author_2_message]
     end
   end
 end
