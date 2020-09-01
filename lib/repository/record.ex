@@ -20,5 +20,6 @@ defmodule Repository.Record do
   """
   def save(record, author, message) do
     Agent.update(record, &Map.put(&1, author, [message] ++ (&1[author] || [])))
+    {:ok, "Deu certo"}
   end
 end
