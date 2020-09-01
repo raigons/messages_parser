@@ -12,7 +12,7 @@ defmodule Repository.Record do
   Gets a value from the `record` by `key`.
   """
   def get_by_author(record, author) do
-    Agent.get(record, &Map.get(&1, author))
+    Agent.get(record, &Map.get(&1, author)) |> IO.inspect
   end
 
   @doc """
