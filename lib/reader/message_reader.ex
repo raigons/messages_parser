@@ -1,39 +1,12 @@
 defmodule Reader.MessageReader do
-  alias Reader.Parser
-  alias Repository.Record
+  alias Reader.{StreamReader, FlowReader}
+
+  @base_file_size 10000
 
   def import(file_name) do
-    {:ok, record} = Record.start_link([])
-    stream = build_stream(file_name, record)
-
-    case Stream.run(stream) do
-      :ok -> {:ok, record}
-      _ -> :error
-    end
+    _import(file_name, File.stat(file_name))
   end
 
-  defp build_stream(file_name, record) do
-    file_name
-    |> File.stream!()
-    |> Stream.map(&String.trim/1)
-    |> Stream.filter(&reject_empty_line/1)
-    |> Stream.scan(%Message{}, &store_message(record, Parser.parse_message(&1), &2))
-  end
-
-  defp reject_empty_line(""), do: false
-  defp reject_empty_line(_line), do: true
-
-  defp store_message(_record, %Message{author: nil, datetime: nil, content: nil}, last_inserted),
-    do: last_inserted
-
-  defp store_message(record, message = %Message{author: nil, datetime: nil}, last_inserted) do
-    message = %Message{message | author: last_inserted.author, datetime: last_inserted.datetime}
-    store_message(record, message, last_inserted)
-  end
-
-  defp store_message(record, message, _last_inserted) do
-    %Message{author: author} = message
-    Record.save(record, author, message)
-    message
-  end
+  defp _import(file_name, {:ok, %File.Stat{ size: size}}) when (size <= @base_file_size), do: StreamReader.import(file_name)
+  defp _import(file_name, {:ok, %File.Stat{ size: size}}) when (size > @base_file_size), do: FlowReader.import(file_name)
 end

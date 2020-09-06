@@ -88,52 +88,50 @@ defmodule Reader.MessageReaderTest do
   end
 
   describe "import multiple lines messages" do
-    test "splits one multiline messages into one record per line with same datetime" do
+    setup do
+      raw_message = "Galera hoje esta rolando a votação da lei para legalização do cultivo caseiro de cannabis no Brasil para uso terapêutico e pessoal !!!"
+      raw_message = raw_message <> " Vamos apoiar a causa , corre lá , faz seu cadastro , confirma o e-mail e vota vota vota !!!!!!!"
+      raw_message = raw_message <> " 💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀"
+      raw_message = raw_message <> " A união faz a força !!!!!"
+      raw_message = raw_message <> " https://www12.senado.leg.br/ecidadania/visualizacaomateria?id=132047"
+      raw_message = raw_message <> " Não deixem de votar !!! E muito importante mesmo !!!!!!!!!!"
+
+      %{raw_message: raw_message}
+    end
+
+    test "joins lines into one message content and replaces breackline \n with space when reading in parallel", %{raw_message: raw_message} do
       file_name = "test/fixtures/sample_4.txt"
 
-      ramon_messages = [
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content:
-            "Galera hoje esta rolando a votação da lei para legalização do cultivo caseiro de cannabis no Brasil para uso terapêutico e pessoal !!!"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content:
-            "Vamos apoiar a causa , corre lá , faz seu cadastro , confirma o e-mail e vota vota vota !!!!!!!"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content: "💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content: "A união faz a força !!!!!"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content: "https://www12.senado.leg.br/ecidadania/visualizacaomateria?id=132047"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content: "Não deixem de votar !!! E muito importante mesmo !!!!!!!!!!"
-        }
-      ]
+      message = %Message{
+        author: "Ramon",
+        datetime: ~N[2018-05-15 09:18:43],
+        content: raw_message
+      }
 
-      {:ok, record} = MessageReader.import(file_name)
+      {:ok, record} = Reader.FlowReader.import(file_name)
 
       assert %{
-               "Ramon" => Enum.reverse(ramon_messages)
+               "Ramon" => [message]
              } == Agent.get(record, fn messages -> messages end)
     end
 
-    test "parses multiline messages inside a list of messages and keep parsing normally after" do
+    test "joins lines into one message content when reading file with simple stream", %{raw_message: raw_message} do
+      file_name = "test/fixtures/sample_4.txt"
+
+      message = %Message{
+        author: "Ramon",
+        datetime: ~N[2018-05-15 09:18:43],
+        content: raw_message
+      }
+
+      {:ok, record} = Reader.StreamReader.import(file_name)
+
+      assert %{
+               "Ramon" => [message]
+             } == Agent.get(record, fn messages -> messages end)
+    end
+
+    test "parses multiline messages inside a list of messages and keep parsing normally after", %{raw_message: raw_message} do
       file_name = "test/fixtures/sample_5.txt"
 
       john_messages = [
@@ -154,46 +152,17 @@ defmodule Reader.MessageReaderTest do
         }
       ]
 
-      ramon_messages = [
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content:
-            "Galera hoje esta rolando a votação da lei para legalização do cultivo caseiro de cannabis no Brasil para uso terapêutico e pessoal !!!"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content:
-            "Vamos apoiar a causa , corre lá , faz seu cadastro , confirma o e-mail e vota vota vota !!!!!!!"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content: "💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content: "A união faz a força !!!!!"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content: "https://www12.senado.leg.br/ecidadania/visualizacaomateria?id=132047"
-        },
-        %Message{
-          author: "Ramon",
-          datetime: ~N[2018-05-15 09:18:43],
-          content: "Não deixem de votar !!! E muito importante mesmo !!!!!!!!!!"
-        }
-      ]
+      message = %Message{
+        author: "Ramon",
+        datetime: ~N[2018-05-15 09:18:43],
+        content: raw_message
+      }
 
       {:ok, record} = MessageReader.import(file_name)
 
       assert %{
                "John Doe" => Enum.reverse(john_messages),
-               "Ramon" => Enum.reverse(ramon_messages)
+               "Ramon" => [message]
              } == Agent.get(record, fn messages -> messages end)
     end
   end
