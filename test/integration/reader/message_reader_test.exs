@@ -117,7 +117,9 @@ defmodule Reader.MessageReaderTest do
         content: raw_message
       }
 
-      {:ok, record} = Reader.FlowReader.import(file_name)
+      stream = MessageReader.build_stream(file_name)
+      {:ok, record} = Repository.Record.start_link([])
+      {:ok, record} = Reader.FlowReader.import(stream, record)
 
       assert %{
                "Ramon" => [message]
@@ -135,7 +137,9 @@ defmodule Reader.MessageReaderTest do
         content: raw_message
       }
 
-      {:ok, record} = Reader.StreamReader.import(file_name)
+      stream = MessageReader.build_stream(file_name)
+      {:ok, record} = Repository.Record.start_link([])
+      {:ok, record} = Reader.StreamReader.import(stream, record)
 
       assert %{
                "Ramon" => [message]
