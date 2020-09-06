@@ -4,7 +4,6 @@ defmodule Reader.FlowReader do
 
   def import(file_name) do
     {:ok, record} = Record.start_link([])
-
     flow = build_flow(file_name, record)
 
     case Flow.run(flow) do
@@ -23,12 +22,12 @@ defmodule Reader.FlowReader do
       fn element, acc ->
         if Reader.Parser.check_default_format(element) do
           case acc do
-              [] -> {:cont, [element]}
-              _ -> {:cont, acc |> Enum.reverse() |> Enum.join(" "), [element]}
-            end
-          else
-            {:cont, [element | acc]}
+            [] -> {:cont, [element]}
+            _ -> {:cont, acc |> Enum.reverse() |> Enum.join(" "), [element]}
           end
+        else
+          {:cont, [element | acc]}
+        end
       end,
       fn
         [] -> {:cont, []}
@@ -37,13 +36,15 @@ defmodule Reader.FlowReader do
     )
     |> Flow.from_enumerable()
     |> Flow.partition()
-    |> Flow.reduce(fn -> %{} end, fn line, acc ->
-      message = Reader.Parser.parse_message(line)
-      %Message{author: author} = message 
-      Record.save(record, author, message)
-    end)
+    |> Flow.map(&store_message(record, Parser.parse_message(&1)))
   end
 
   defp reject_empty_line(""), do: false
   defp reject_empty_line(_line), do: true
+
+  defp store_message(record, message) do
+    %Message{author: author} = message
+    Record.save(record, author, message)
+    message
+  end
 end

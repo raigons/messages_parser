@@ -7,6 +7,9 @@ defmodule Reader.MessageReader do
     _import(file_name, File.stat(file_name))
   end
 
-  defp _import(file_name, {:ok, %File.Stat{ size: size}}) when (size <= @base_file_size), do: StreamReader.import(file_name)
-  defp _import(file_name, {:ok, %File.Stat{ size: size}}) when (size > @base_file_size), do: FlowReader.import(file_name)
+  defp _import(file_name, {:ok, %File.Stat{size: size}}) when size <= @base_file_size,
+    do: StreamReader.import(file_name)
+
+  defp _import(file_name, {:ok, %File.Stat{size: size}}) when size > @base_file_size,
+    do: FlowReader.import(file_name)
 end

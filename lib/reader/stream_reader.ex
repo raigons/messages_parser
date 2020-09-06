@@ -22,12 +22,12 @@ defmodule Reader.StreamReader do
       fn element, acc ->
         if Reader.Parser.check_default_format(element) do
           case acc do
-              [] -> {:cont, [element]}
-              _ -> {:cont, acc |> Enum.reverse() |> Enum.join(" "), [element]}
-            end
-          else
-            {:cont, [element | acc]}
+            [] -> {:cont, [element]}
+            _ -> {:cont, acc |> Enum.reverse() |> Enum.join(" "), [element]}
           end
+        else
+          {:cont, [element | acc]}
+        end
       end,
       fn
         [] -> {:cont, []}

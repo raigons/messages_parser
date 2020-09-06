@@ -89,17 +89,26 @@ defmodule Reader.MessageReaderTest do
 
   describe "import multiple lines messages" do
     setup do
-      raw_message = "Galera hoje esta rolando a votação da lei para legalização do cultivo caseiro de cannabis no Brasil para uso terapêutico e pessoal !!!"
-      raw_message = raw_message <> " Vamos apoiar a causa , corre lá , faz seu cadastro , confirma o e-mail e vota vota vota !!!!!!!"
+      raw_message =
+        "Galera hoje esta rolando a votação da lei para legalização do cultivo caseiro de cannabis no Brasil para uso terapêutico e pessoal !!!"
+
+      raw_message =
+        raw_message <>
+          " Vamos apoiar a causa , corre lá , faz seu cadastro , confirma o e-mail e vota vota vota !!!!!!!"
+
       raw_message = raw_message <> " 💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚💚🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀🍀"
       raw_message = raw_message <> " A união faz a força !!!!!"
-      raw_message = raw_message <> " https://www12.senado.leg.br/ecidadania/visualizacaomateria?id=132047"
+
+      raw_message =
+        raw_message <> " https://www12.senado.leg.br/ecidadania/visualizacaomateria?id=132047"
+
       raw_message = raw_message <> " Não deixem de votar !!! E muito importante mesmo !!!!!!!!!!"
 
       %{raw_message: raw_message}
     end
 
-    test "joins lines into one message content and replaces breackline \n with space when reading in parallel", %{raw_message: raw_message} do
+    test "joins lines into one message content and replaces breackline \n with space when reading in parallel",
+         %{raw_message: raw_message} do
       file_name = "test/fixtures/sample_4.txt"
 
       message = %Message{
@@ -115,7 +124,9 @@ defmodule Reader.MessageReaderTest do
              } == Agent.get(record, fn messages -> messages end)
     end
 
-    test "joins lines into one message content when reading file with simple stream", %{raw_message: raw_message} do
+    test "joins lines into one message content when reading file with simple stream", %{
+      raw_message: raw_message
+    } do
       file_name = "test/fixtures/sample_4.txt"
 
       message = %Message{
@@ -131,7 +142,9 @@ defmodule Reader.MessageReaderTest do
              } == Agent.get(record, fn messages -> messages end)
     end
 
-    test "parses multiline messages inside a list of messages and keep parsing normally after", %{raw_message: raw_message} do
+    test "parses multiline messages inside a list of messages and keep parsing normally after", %{
+      raw_message: raw_message
+    } do
       file_name = "test/fixtures/sample_5.txt"
 
       john_messages = [
