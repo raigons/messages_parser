@@ -1,4 +1,4 @@
-defmodule Report.MessagesPerUser do
+defmodule Report.MessagesByUser do
   alias Repository.Record
 
   def count(record) do

@@ -1,7 +1,7 @@
-defmodule Report.MessagesPerUserTest do
+defmodule Report.MessagesByUserTest do
   use ExUnit.Case
 
-  alias Report.MessagesPerUser
+  alias Report.MessagesByUser
 
   describe "count/1" do
     setup do
@@ -23,7 +23,7 @@ defmodule Report.MessagesPerUserTest do
     end
 
     test "returns a map with number of messages per user", %{record: record} do
-      result = MessagesPerUser.count(record)
+      result = MessagesByUser.count(record)
 
       assert result == %{
                "A" => 4,
@@ -37,7 +37,7 @@ defmodule Report.MessagesPerUserTest do
       Repository.Record.save(record, "C", message_c)
       Repository.Record.save(record, "C", message_c2)
 
-      result = MessagesPerUser.count(record)
+      result = MessagesByUser.count(record)
 
       assert result == %{
                "A" => 4,
