@@ -1,17 +1,15 @@
 defmodule Reader.FlowReader do
-  alias Reader.Parser
+  alias Reader.{FileStreamBuilder, Parser}
   alias Repository.Record
 
-  def import(stream, record) do
-    flow = build(stream, record)
-
-    case Flow.run(flow) do
-      :ok -> {:ok, record}
-      _ -> :error
-    end
+  def import(file_name, record) do
+    file_name
+    |> FileStreamBuilder.build_stream()
+    |> build_flow(record)
+    |> Flow.run()
   end
 
-  defp build(stream, record) do
+  defp build_flow(stream, record) do
     stream
     |> Flow.from_enumerable()
     |> Flow.partition()

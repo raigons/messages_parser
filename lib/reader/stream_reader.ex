@@ -1,17 +1,15 @@
 defmodule Reader.StreamReader do
-  alias Reader.Parser
+  alias Reader.{FileStreamBuilder, Parser}
   alias Repository.Record
 
-  def import(stream, record) do
-    stream = build(stream, record)
-
-    case Stream.run(stream) do
-      :ok -> {:ok, record}
-      _ -> :error
-    end
+  def import(file_name, record) do
+    file_name
+    |> FileStreamBuilder.build_stream()
+    |> build_stream(record)
+    |> Stream.run()
   end
 
-  defp build(stream, record) do
+  defp build_stream(stream, record) do
     stream
     |> Stream.map(&store_message(record, Parser.parse_message(&1)))
   end

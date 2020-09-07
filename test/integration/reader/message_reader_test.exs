@@ -107,7 +107,7 @@ defmodule Reader.MessageReaderTest do
       %{raw_message: raw_message}
     end
 
-    test "joins lines into one message content and replaces breackline \n with space when reading in parallel",
+    test "joins lines into one message content and replaces breakeline \n with space when reading in parallel",
          %{raw_message: raw_message} do
       file_name = "test/fixtures/sample_4.txt"
 
@@ -117,9 +117,8 @@ defmodule Reader.MessageReaderTest do
         content: raw_message
       }
 
-      stream = MessageReader.build_stream(file_name)
       {:ok, record} = Repository.Record.start_link([])
-      {:ok, record} = Reader.FlowReader.import(stream, record)
+      :ok = Reader.FlowReader.import(file_name, record)
 
       assert %{
                "Ramon" => [message]
@@ -137,9 +136,8 @@ defmodule Reader.MessageReaderTest do
         content: raw_message
       }
 
-      stream = MessageReader.build_stream(file_name)
       {:ok, record} = Repository.Record.start_link([])
-      {:ok, record} = Reader.StreamReader.import(stream, record)
+      :ok = Reader.StreamReader.import(file_name, record)
 
       assert %{
                "Ramon" => [message]
