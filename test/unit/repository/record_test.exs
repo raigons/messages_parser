@@ -99,4 +99,27 @@ defmodule Repository.RecordTest do
       assert Record.get_by_author(record, "John Doe") == [author_2_message_2, author_2_message]
     end
   end
+
+  describe "all_messages/1" do
+    test "returns a list with all messages separated by authors", %{record: record} do
+      author_1_message = %Message{
+        datetime: ~N[2020-12-09 22:08:20],
+        author: "Ramon Gonçalves",
+        content: "Hi, I wanna talk to you in 25/12/2020: test ;)"
+      }
+
+      author_2_message = %Message{
+        datetime: ~N[2020-12-09 22:09:20],
+        author: "John Doe",
+        content: "Ok. I call you"
+      }
+      Record.save(record, "Ramon Gonçalves", author_1_message)
+      Record.save(record, "John Doe", author_2_message)
+
+      assert Record.all_messages(record) == %{
+        "Ramon Gonçalves" => [author_1_message],
+        "John Doe" => [author_2_message]
+      }
+    end
+  end
 end

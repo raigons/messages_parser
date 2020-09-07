@@ -21,4 +21,11 @@ defmodule Repository.Record do
   def save(record, author, message) do
     Agent.update(record, &Map.put(&1, author, [message] ++ (&1[author] || [])))
   end
+
+  @doc """
+  Returns all stored messages in a map
+  """
+  def all_messages(record) do
+    Agent.get(record, &(&1))
+  end
 end
