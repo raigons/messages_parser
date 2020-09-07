@@ -26,6 +26,6 @@ defmodule Repository.Record do
   Returns all stored messages in a map
   """
   def all_messages(record) do
-    Agent.get(record, &(&1))
+    Agent.get(record, & &1)
   end
 end

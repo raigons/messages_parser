@@ -26,9 +26,9 @@ defmodule Report.MessagesPerUserTest do
       result = MessagesPerUser.count(record)
 
       assert result == %{
-        "A" => 4,
-        "B" => 3
-      }
+               "A" => 4,
+               "B" => 3
+             }
     end
 
     test "counts messages when more than 2 authors have sent messages", %{record: record} do
@@ -40,10 +40,10 @@ defmodule Report.MessagesPerUserTest do
       result = MessagesPerUser.count(record)
 
       assert result == %{
-        "A" => 4,
-        "B" => 3,
-        "C" => 2
-      }
+               "A" => 4,
+               "B" => 3,
+               "C" => 2
+             }
     end
   end
 end

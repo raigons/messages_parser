@@ -113,13 +113,14 @@ defmodule Repository.RecordTest do
         author: "John Doe",
         content: "Ok. I call you"
       }
+
       Record.save(record, "Ramon Gonçalves", author_1_message)
       Record.save(record, "John Doe", author_2_message)
 
       assert Record.all_messages(record) == %{
-        "Ramon Gonçalves" => [author_1_message],
-        "John Doe" => [author_2_message]
-      }
+               "Ramon Gonçalves" => [author_1_message],
+               "John Doe" => [author_2_message]
+             }
     end
   end
 end
