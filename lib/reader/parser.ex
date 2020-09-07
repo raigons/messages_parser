@@ -10,7 +10,7 @@ defmodule Reader.Parser do
     end
   end
 
-  defp check_default_format(raw_message) do
+  def check_default_format(raw_message) do
     Regex.match?(
       ~r/\[[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4}) \d+:\d+:\d+\]\s(.+?):\s(.+?)/,
       raw_message
