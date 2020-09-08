@@ -1,3 +1,5 @@
+[![Build Status](https://github.com/raigons/messages-parser/workflows/CI/badge.svg)](https://github.com/raigons/messages-parser/actions)
+
 # MessagesParser
 Parses exported messages from whatsapp in order to extract informations over conversations.
 It is still very 'dumb' and got little functionalities.

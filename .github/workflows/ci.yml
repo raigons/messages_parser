@@ -1,6 +1,6 @@
 name: CI
 on: [pull_request, push]
- 
+
 jobs:
   build:
 
@@ -26,4 +26,4 @@ jobs:
       run: mix test test/unit
     - name: Run integration tests
       run: mix test test/integration
-      
+
