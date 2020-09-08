@@ -1,4 +1,4 @@
-defmodule Reader.MessageReaderTest do
+defmodule Integration.Reader.MessageReaderTest do
   use ExUnit.Case, async: false
   use Agent
 
