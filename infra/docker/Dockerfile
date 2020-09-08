@@ -9,5 +9,5 @@ WORKDIR /usr/src/app
 
 COPY . /usr/src/app/
 
-RUN mix deps.get && mix.deps.compile
+RUN mix deps.get
 RUN mix compile
