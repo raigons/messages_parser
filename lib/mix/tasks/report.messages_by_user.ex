@@ -6,8 +6,9 @@ defmodule Mix.Tasks.Report.MessagesByUser do
   end
 
   defp report(_, false), do: Mix.shell().error("File does not exist")
+
   defp report(file_path, true) do
     {:ok, record} = Reader.MessageReader.import(file_path)
-    IO.inspect Report.MessagesByUser.count(record)
+    IO.inspect(Report.MessagesByUser.count(record))
   end
 end
