@@ -2,4 +2,7 @@
 
 source ./infra/scripts/build_image.sh
 
-docker run -it messages_parser sh
+image_name="messages_parser"
+container_name="messages_parser"
+
+docker run --name=$container_name -it -d $image_name sleep infinity
