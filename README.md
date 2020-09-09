@@ -2,7 +2,7 @@
 
 # MessagesParser
 Parses exported messages from whatsapp in order to extract informations over conversations.
-It is still very 'dumb' and got little functionalities.
+It is still very simple  and got little functionalities.
 
 ## Installation
 
