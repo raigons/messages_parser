@@ -6,7 +6,7 @@ defmodule Integration.Reader.IOSFormatMessageReaderTest do
 
   describe "import simple line messages" do
     test "loads single message from file and parse it" do
-      file_name = "test/fixtures/sample_1.txt"
+      file_name = "test/fixtures/ios/sample_1.txt"
 
       {:ok, record} = MessageReader.import(file_name)
 
@@ -22,7 +22,7 @@ defmodule Integration.Reader.IOSFormatMessageReaderTest do
     end
 
     test "loads multiples messages from file for same author" do
-      file_name = "test/fixtures/sample_2.txt"
+      file_name = "test/fixtures/ios/sample_2.txt"
 
       {:ok, record} = MessageReader.import(file_name)
 
@@ -50,7 +50,7 @@ defmodule Integration.Reader.IOSFormatMessageReaderTest do
     end
 
     test "loads multiples messages for different authors" do
-      file_name = "test/fixtures/sample_3.txt"
+      file_name = "test/fixtures/ios/sample_3.txt"
 
       {:ok, record} = MessageReader.import(file_name)
 
@@ -109,7 +109,7 @@ defmodule Integration.Reader.IOSFormatMessageReaderTest do
 
     test "joins lines into one message content and replaces breakeline \n with space when reading in parallel",
          %{raw_message: raw_message} do
-      file_name = "test/fixtures/sample_4.txt"
+      file_name = "test/fixtures/ios/sample_4.txt"
 
       message = %Message{
         author: "Ramon",
@@ -128,7 +128,7 @@ defmodule Integration.Reader.IOSFormatMessageReaderTest do
     test "joins lines into one message content when reading file with simple stream", %{
       raw_message: raw_message
     } do
-      file_name = "test/fixtures/sample_4.txt"
+      file_name = "test/fixtures/ios/sample_4.txt"
 
       message = %Message{
         author: "Ramon",
@@ -147,7 +147,7 @@ defmodule Integration.Reader.IOSFormatMessageReaderTest do
     test "parses multiline messages inside a list of messages and keep parsing normally after", %{
       raw_message: raw_message
     } do
-      file_name = "test/fixtures/sample_5.txt"
+      file_name = "test/fixtures/ios/sample_5.txt"
 
       john_messages = [
         %Message{
