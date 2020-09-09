@@ -1,49 +1,39 @@
 defmodule Reader.Parser do
+  alias Reader.Parser.{IOSParser, AndroidParser}
+
+  @default_formats [
+    {~r/\[[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4}) \d+:\d+:\d+\]\s(.+?):\s(.+?)/, :ios_format},
+    {~r/[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4}) \d+:\d+\s\-\s(.+?):\s(.+?)/, :android_format}
+  ]
+
   def parse_message(raw_message) do
-    if check_default_format(raw_message) do
-      %Message{}
-      |> extract_datetime(raw_message)
-      |> extract_author(raw_message)
-      |> extract_content(raw_message)
-    else
-      build_only_content_message(raw_message)
-    end
+    raw_message |> parser |> do_parse
   end
+
+  defp parser(raw_message) do
+    {_, type} = Enum.find(@default_formats, {nil, :unknown}, fn {regex, _type} ->
+      String.match?(raw_message, regex)
+    end)
+
+    {type, raw_message}
+  end
+
+  defp do_parse({:ios_format, raw_message}), do: IOSParser.parse_message(raw_message)
+  defp do_parse({:android_format, raw_message}), do: AndroidParser.parse_message(raw_message)
+  defp do_parse({:unknown, raw_message}), do: _parse_message(raw_message)
+
+  defp _parse_message(_raw_message = ""), do: %Message{}
+  defp _parse_message(raw_message), do: %Message{content: raw_message}
 
   def check_default_format(raw_message) do
-    Regex.match?(
-      ~r/\[[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4}) \d+:\d+:\d+\]\s(.+?):\s(.+?)/,
-      raw_message
-    )
+    raw_message |> parser |> is_known_format?
+    # Regex.match?(
+    #   ~r/\[[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4}) \d+:\d+:\d+\]\s(.+?):\s(.+?)/,
+    #   raw_message
+    # )
   end
 
-  defp build_only_content_message(_raw_message = ""), do: %Message{}
-  defp build_only_content_message(raw_message), do: %Message{content: raw_message}
-
-  defp extract_datetime(message, raw_message) do
-    with [datetime, _] <-
-           Regex.run(~r/[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4})(?!\d) \d+:\d+:\d+/, raw_message),
-         {:ok, datetime} <- Timex.parse(datetime, "{0D}/{0M}/{YY} {h24}:{m}:{s}") do
-      %Message{message | datetime: datetime}
-    else
-      {:error, error_message} -> IO.inspect(error_message, label: "error")
-      nil -> message
-    end
-  end
-
-  defp extract_author(message, raw_message) do
-    with [_, author] <- Regex.run(~r/\[.+?\]\s(.+?):/, raw_message) do
-      %Message{message | author: author}
-    else
-      nil -> message
-    end
-  end
-
-  defp extract_content(message, raw_message) do
-    with [_, content] <- Regex.run(~r/\[.+?\]\s.+?:\s(.+?)$/, raw_message) do
-      %Message{message | content: content}
-    else
-      nil -> message
-    end
-  end
+  defp is_known_format?({:ios_format, _}), do: true
+  defp is_known_format?({:android_format, _}), do: true
+  defp is_known_format?({:unknown, _}), do: false
 end

@@ -1,4 +1,4 @@
-defmodule Integration.Reader.MessageReaderTest do
+defmodule Integration.Reader.AndroidFormatMessageReaderTest do
   use ExUnit.Case, async: false
   use Agent
 
@@ -6,13 +6,13 @@ defmodule Integration.Reader.MessageReaderTest do
 
   describe "import simple line messages" do
     test "loads single message from file and parse it" do
-      file_name = "test/fixtures/sample_1.txt"
+      file_name = "test/fixtures/android/sample_1.txt"
 
       {:ok, record} = MessageReader.import(file_name)
 
       expected_message = %Message{
         author: "John Doe",
-        datetime: ~N[2020-08-11 02:16:21],
+        datetime: ~N[2019-03-11 16:06:00],
         content: "Olá!"
       }
 
@@ -22,7 +22,7 @@ defmodule Integration.Reader.MessageReaderTest do
     end
 
     test "loads multiples messages from file for same author" do
-      file_name = "test/fixtures/sample_2.txt"
+      file_name = "test/fixtures/android/sample_2.txt"
 
       {:ok, record} = MessageReader.import(file_name)
 
@@ -30,17 +30,17 @@ defmodule Integration.Reader.MessageReaderTest do
         %Message{
           author: "Ramon",
           content: "Hi!",
-          datetime: ~N[2020-08-25 02:16:21]
+          datetime: ~N[2020-08-25 02:16:00]
         },
         %Message{
           author: "Ramon",
           content: "Another message",
-          datetime: ~N[2020-08-25 02:16:34]
+          datetime: ~N[2020-08-25 02:16:00]
         },
         %Message{
           author: "Ramon",
           content: "Plus one",
-          datetime: ~N[2020-08-25 02:17:22]
+          datetime: ~N[2020-08-25 02:17:00]
         }
       ]
 
@@ -50,20 +50,20 @@ defmodule Integration.Reader.MessageReaderTest do
     end
 
     test "loads multiples messages for different authors" do
-      file_name = "test/fixtures/sample_3.txt"
+      file_name = "test/fixtures/android/sample_3.txt"
 
       {:ok, record} = MessageReader.import(file_name)
 
       john_messages = [
         %Message{
           author: "John Doe",
-          datetime: ~N[2020-08-25 02:16:21],
+          datetime: ~N[2020-08-25 02:16:00],
           content: "Olá!"
         },
         %Message{
           author: "John Doe",
           content: "Some another message",
-          datetime: ~N[2020-08-25 03:59:50]
+          datetime: ~N[2020-08-25 03:59:00]
         }
       ]
 
@@ -71,12 +71,12 @@ defmodule Integration.Reader.MessageReaderTest do
         %Message{
           author: "Ramon",
           content: "Hi!",
-          datetime: ~N[2020-08-25 02:16:21]
+          datetime: ~N[2020-08-25 02:16:00]
         },
         %Message{
           author: "Ramon",
           content: "Another message",
-          datetime: ~N[2020-08-25 02:16:34]
+          datetime: ~N[2020-08-25 02:16:00]
         }
       ]
 
@@ -109,11 +109,11 @@ defmodule Integration.Reader.MessageReaderTest do
 
     test "joins lines into one message content and replaces breakeline \n with space when reading in parallel",
          %{raw_message: raw_message} do
-      file_name = "test/fixtures/sample_4.txt"
+      file_name = "test/fixtures/android/sample_4.txt"
 
       message = %Message{
         author: "Ramon",
-        datetime: ~N[2018-05-15 09:18:43],
+        datetime: ~N[2018-05-15 09:18:00],
         content: raw_message
       }
 
@@ -128,11 +128,11 @@ defmodule Integration.Reader.MessageReaderTest do
     test "joins lines into one message content when reading file with simple stream", %{
       raw_message: raw_message
     } do
-      file_name = "test/fixtures/sample_4.txt"
+      file_name = "test/fixtures/android/sample_4.txt"
 
       message = %Message{
         author: "Ramon",
-        datetime: ~N[2018-05-15 09:18:43],
+        datetime: ~N[2018-05-15 09:18:00],
         content: raw_message
       }
 
@@ -147,29 +147,29 @@ defmodule Integration.Reader.MessageReaderTest do
     test "parses multiline messages inside a list of messages and keep parsing normally after", %{
       raw_message: raw_message
     } do
-      file_name = "test/fixtures/sample_5.txt"
+      file_name = "test/fixtures/android/sample_5.txt"
 
       john_messages = [
         %Message{
           author: "John Doe",
-          datetime: ~N[2018-05-15 08:43:11],
+          datetime: ~N[2018-05-15 08:43:00],
           content: "Hello ma friend!"
         },
         %Message{
           author: "John Doe",
-          datetime: ~N[2018-05-15 09:34:13],
+          datetime: ~N[2018-05-15 09:34:00],
           content: "fuckin 4:20"
         },
         %Message{
           author: "John Doe",
-          datetime: ~N[2018-05-15 09:34:14],
+          datetime: ~N[2018-05-15 09:34:00],
           content: "ouch"
         }
       ]
 
       message = %Message{
         author: "Ramon",
-        datetime: ~N[2018-05-15 09:18:43],
+        datetime: ~N[2018-05-15 09:18:00],
         content: raw_message
       }
 

@@ -1,0 +1,7 @@
+11/03/2019 16:06 - Rodrigo: some message
+11/03/2019 16:26 - Ramon: another message
+11/03/2019 16:26 - Ramon: new message
+11/03/2019 17:04 - Rodrigo: bla bla bla
+11/03/2019 17:27 - Ramon: lorem ipsum dollar
+11/03/2019 17:53 - Ramon: sit amet dddd
+11/03/2019 17:53 - Ramon: bye
