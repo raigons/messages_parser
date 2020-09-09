@@ -5,7 +5,7 @@ defmodule Reader.Parser.AndroidParserTest do
 
   describe "default format message" do
     setup do
-      %{raw_message: "11/03/2019 16:05 - Ramon Gonçalves: foi mal meu camarada" }
+      %{raw_message: "11/03/2019 16:05 - Ramon Gonçalves: foi mal meu camarada"}
       # %{raw_message: "[11/05/18 02:16:21] Ramon Gonçalves: Hello world!"}
     end
 
@@ -55,4 +55,3 @@ defmodule Reader.Parser.AndroidParserTest do
     end
   end
 end
-

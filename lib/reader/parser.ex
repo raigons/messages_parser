@@ -11,9 +11,10 @@ defmodule Reader.Parser do
   end
 
   defp parser(raw_message) do
-    {_, type} = Enum.find(@default_formats, {nil, :unknown}, fn {regex, _type} ->
-      Regex.match?(regex, raw_message)
-    end)
+    {_, type} =
+      Enum.find(@default_formats, {nil, :unknown}, fn {regex, _type} ->
+        Regex.match?(regex, raw_message)
+      end)
 
     {type, raw_message}
   end
@@ -28,6 +29,7 @@ defmodule Reader.Parser do
   def is_known_format?(raw_message) when is_binary(raw_message) do
     raw_message |> parser |> is_known_format?
   end
+
   def is_known_format?({:ios_format, _} = tuple) when is_tuple(tuple), do: true
   def is_known_format?({:android_format, _} = tuple) when is_tuple(tuple), do: true
   def is_known_format?({:unknown, _} = tuple) when is_tuple(tuple), do: false

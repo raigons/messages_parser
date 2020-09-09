@@ -19,7 +19,8 @@ defmodule Reader.Parser.AndroidParser do
 
   defp extract_author(message, raw_message) do
     regex = ~r/([0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4})(?!\d) \d+:\d+)\s\-\s(.+?):/
-    with [_,_,_,author] <- Regex.run(regex, raw_message) do
+
+    with [_, _, _, author] <- Regex.run(regex, raw_message) do
       %Message{message | author: author}
     else
       nil -> message
@@ -28,6 +29,7 @@ defmodule Reader.Parser.AndroidParser do
 
   defp extract_content(message, raw_message) do
     regex = ~r/[0-9]{2}\/[0-9]{2}\/[0-9]{4} \d+:\d+\s\-\s.+?:\s(.+?)$/
+
     with [_, content] <- Regex.run(regex, raw_message) do
       %Message{message | content: content}
     else

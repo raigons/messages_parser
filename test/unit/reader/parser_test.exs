@@ -13,7 +13,9 @@ defmodule Reader.ParserTest do
 
     test "extracts datetime value", %{raw_messages: [ios_raw_message, android_raw_message]} do
       assert %Message{datetime: ~N[2018-05-11 02:16:21]} = Parser.parse_message(ios_raw_message)
-      assert %Message{datetime: ~N[2019-03-11 16:05:00]} = Parser.parse_message(android_raw_message)
+
+      assert %Message{datetime: ~N[2019-03-11 16:05:00]} =
+               Parser.parse_message(android_raw_message)
     end
 
     test "extracts author name", %{raw_messages: [ios_raw_message, android_raw_message]} do
@@ -21,7 +23,9 @@ defmodule Reader.ParserTest do
       assert %Message{author: "Ramon Henrique"} = Parser.parse_message(android_raw_message)
     end
 
-    test "extracts message content into type", %{raw_messages: [ios_raw_message, android_raw_message]} do
+    test "extracts message content into type", %{
+      raw_messages: [ios_raw_message, android_raw_message]
+    } do
       assert %Message{content: "Hello world!"} = Parser.parse_message(ios_raw_message)
       assert %Message{content: "foi mal meu camarada"} = Parser.parse_message(android_raw_message)
     end
@@ -64,7 +68,7 @@ defmodule Reader.ParserTest do
                author: "Ramon Gonçalves",
                content: "Hi, now is 10/12/2014 22:15:10 - am I correct?"
              } = Parser.parse_message(android_raw_message)
-      end
+    end
   end
 
   describe "only-content message format" do
