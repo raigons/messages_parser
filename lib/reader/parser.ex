@@ -30,7 +30,7 @@ defmodule Reader.Parser do
     raw_message |> parser |> is_known_format?
   end
 
-  def is_known_format?({:ios_format, _} = tuple) when is_tuple(tuple), do: true
-  def is_known_format?({:android_format, _} = tuple) when is_tuple(tuple), do: true
-  def is_known_format?({:unknown, _} = tuple) when is_tuple(tuple), do: false
+  def is_known_format?({:ios_format, _}), do: true
+  def is_known_format?({:android_format, _}), do: true
+  def is_known_format?({:unknown, _}), do: false
 end
