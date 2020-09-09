@@ -23,7 +23,7 @@ defmodule Reader.Parser do
   defp do_parse({:android_format, raw_message}), do: AndroidParser.parse_message(raw_message)
   defp do_parse({:unknown, raw_message}), do: _parse_message(raw_message)
 
-  defp _parse_message(_raw_message = ""), do: %Message{}
+  defp _parse_message(""), do: %Message{}
   defp _parse_message(raw_message), do: %Message{content: raw_message}
 
   def is_known_format?(raw_message) when is_binary(raw_message) do
