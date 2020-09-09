@@ -89,20 +89,20 @@ defmodule Reader.ParserTest do
     end
   end
 
-  describe "check_default_format/1" do
+  describe "is_known_format?/1" do
     test "returns true for ios format" do
       ios_raw_message = "[11/05/18 02:16:21] Ramon Gonçalves: Hello world!"
-      assert Parser.check_default_format(ios_raw_message) == true
+      assert Parser.is_known_format?(ios_raw_message) == true
     end
 
     test "returns true for android format" do
       android_raw_message = "11/03/2019 16:05 - Ramon Henrique: foi mal meu camarada"
-      assert Parser.check_default_format(android_raw_message) == true
+      assert Parser.is_known_format?(android_raw_message) == true
     end
 
     test "returns false for message with unknown pattern" do
       raw_message = "This is a pure message with no data and author"
-      assert Parser.check_default_format(raw_message) == false
+      assert Parser.is_known_format?(raw_message) == false
     end
   end
 end

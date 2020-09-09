@@ -7,7 +7,7 @@ defmodule Reader.FileStreamBuilder do
     |> Stream.chunk_while(
       [],
       fn element, acc ->
-        if Reader.Parser.check_default_format(element) do
+        if Reader.Parser.is_known_format?(element) do
           case acc do
             [] -> {:cont, [element]}
             _ -> {:cont, acc |> Enum.reverse() |> Enum.join(" "), [element]}
