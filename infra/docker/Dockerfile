@@ -1,4 +1,4 @@
-FROM elixir
+FROM elixir:1.10.4-alpine
 
 ENV MIX_HOME=/opt/mix
 RUN mix local.hex --force
