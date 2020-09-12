@@ -6,6 +6,8 @@ defmodule Reader.Parser do
     {~r/[0-9]{2}\/[0-9]{2}\/(?<!\d)(\d{2}|\d{4}) \d+:\d+\s\-\s(.+?):\s(.+?)/, :android_format}
   ]
 
+  def parse_message(""), do: %Message{}
+
   def parse_message(raw_message) do
     raw_message |> parser |> do_parse
   end
@@ -21,10 +23,7 @@ defmodule Reader.Parser do
 
   defp do_parse({:ios_format, raw_message}), do: IOSParser.parse_message(raw_message)
   defp do_parse({:android_format, raw_message}), do: AndroidParser.parse_message(raw_message)
-  defp do_parse({:unknown, raw_message}), do: _parse_message(raw_message)
-
-  defp _parse_message(""), do: %Message{}
-  defp _parse_message(raw_message), do: %Message{content: raw_message}
+  defp do_parse({:unknown, raw_message}), do: %Message{content: raw_message}
 
   def is_known_format?(raw_message) when is_binary(raw_message) do
     raw_message |> parser |> is_known_format?
