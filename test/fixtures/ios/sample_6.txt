@@ -1,0 +1,24 @@
+[25/08/20 02:16:21] John Doe: Olá!
+[25/08/20 02:16:21] Ramon: Hi!
+[25/08/20 02:16:34] Ramon: Another message
+[25/08/20 03:59:50] John Doe: Some another message
+
+[26/08/20 03:59:50] John Doe: Some another message
+[26/08/20 05:16:34] Ramon: Another message
+[26/08/20 08:59:50] John Doe: Some another message
+[26/08/20 09:16:34] Ramon: Another message
+[26/08/20 09:59:50] John Doe: Some another message
+[26/08/20 10:16:34] Ramon: Another message
+[26/08/20 10:16:34] Ramon: Another message
+multline
+as example
+and with 🇧🇷 flag
+
+!!! bye
+[26/08/20 09:59:50] John Doe: Some another message
+
+[27/08/20 02:16:21] John Doe: Olá!
+[27/08/20 02:16:21] Ramon: Hi!
+[27/08/20 02:16:34] Ramon: Another message
+[27/08/20 03:59:50] John Doe: Some another message
+[27/08/20 03:59:50] John Doe: Some another message
