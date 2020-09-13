@@ -11,7 +11,7 @@ report () {
         shift 2
         ;;
       -r | --report)
-        if [ "$2" != "messages_by_user" ] && [ "$2" != "messages_per_day" ]; then
+        if [ "$2" != "messages_by_user" ] && [ "$2" != "messages_per_day" ] && [ "$2" != "messages_per_hour" ]; then
           echo ":: Report ($2) not available ::"
           return 0
         else
@@ -22,7 +22,8 @@ report () {
       -h | --help)
         echo "\n you must inform one of the following available reports:
           -r messages_by_user
-          -r messages_per_day"
+          -r messages_per_day
+          -r messages_per_hour"
         break
         ;;
       -*)
