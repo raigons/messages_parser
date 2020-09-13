@@ -151,5 +151,27 @@ defmodule Repository.RecordTest do
                "John Doe" => [author_2_message]
              }
     end
+
+    test "returns a flatten list with all messages", %{record: record} do
+      author_1_message = %Message{
+        datetime: ~N[2020-12-09 22:08:20],
+        author: "Ramon Gonçalves",
+        content: "Hi, I wanna talk to you in 25/12/2020: test ;)"
+      }
+
+      author_2_message = %Message{
+        datetime: ~N[2020-12-09 22:09:20],
+        author: "John Doe",
+        content: "Ok. I call you"
+      }
+
+      Record.save(record, "Ramon Gonçalves", author_1_message)
+      Record.save(record, "John Doe", author_2_message)
+
+      assert Record.all_messages(record, :flatten) == [
+         author_2_message,
+         author_1_message
+      ]
+    end
   end
 end
