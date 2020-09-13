@@ -26,5 +26,15 @@ defmodule Integration.Report.MessagesPerDayTest do
               ~D[2020-08-27] => 5
             }
     end
+
+    test "does not count messages of no author" do
+      file = "test/fixtures/android/sample_7.txt"
+
+      {:ok, record} = Reader.MessageReader.import(file)
+      assert Report.MessagesPerDay.count(record) ==
+            %{
+              ~D[2019-03-11] => 2,
+            }
+    end
   end
 end
