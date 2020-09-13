@@ -139,7 +139,7 @@ defmodule Repository.RecordTest do
       nil_author_message = %Message{
         author: nil,
         content: "Some exported message",
-        datetime: ~N[2020-12-09 22:09:20],
+        datetime: ~N[2020-12-09 22:09:20]
       }
 
       Record.save(record, "Ramon Gonçalves", author_1_message)

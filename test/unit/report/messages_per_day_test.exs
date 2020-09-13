@@ -26,11 +26,11 @@ defmodule Report.MessagesPerDayTest do
       result = MessagesPerDay.count(record)
 
       assert result == %{
-              ~D[2020-09-01] => 2,
-              ~D[2020-09-02] => 1,
-              ~D[2020-09-03] => 3,
-              ~D[2020-09-11] => 1
-            }
+               ~D[2020-09-01] => 2,
+               ~D[2020-09-02] => 1,
+               ~D[2020-09-03] => 3,
+               ~D[2020-09-11] => 1
+             }
     end
 
     test "counts messages when more than 2 authors have sent messages", %{record: record} do
@@ -42,11 +42,11 @@ defmodule Report.MessagesPerDayTest do
       result = MessagesPerDay.count(record)
 
       assert result == %{
-              ~D[2020-09-01] => 4,
-              ~D[2020-09-02] => 1,
-              ~D[2020-09-03] => 3,
-              ~D[2020-09-11] => 1
-            }
+               ~D[2020-09-01] => 4,
+               ~D[2020-09-02] => 1,
+               ~D[2020-09-03] => 3,
+               ~D[2020-09-11] => 1
+             }
     end
   end
 end
