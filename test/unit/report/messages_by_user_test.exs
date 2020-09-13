@@ -25,10 +25,10 @@ defmodule Report.MessagesByUserTest do
     test "returns a map with number of messages per user", %{record: record} do
       result = MessagesByUser.count(record)
 
-      assert result == %{
-               "A" => 4,
-               "B" => 3
-             }
+      assert result == [
+               {"A", 4},
+               {"B", 3}
+             ]
     end
 
     test "counts messages when more than 2 authors have sent messages", %{record: record} do
@@ -39,11 +39,11 @@ defmodule Report.MessagesByUserTest do
 
       result = MessagesByUser.count(record)
 
-      assert result == %{
-               "A" => 4,
-               "B" => 3,
-               "C" => 2
-             }
+      assert result == [
+               {"A", 4},
+               {"B", 3},
+               {"C", 2}
+             ]
     end
   end
 end

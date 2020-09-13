@@ -7,5 +7,6 @@ defmodule Report.MessagesByUser do
     |> Enum.reduce(%{}, fn {author, messages}, result ->
       Map.put(result, author, Enum.count(messages))
     end)
+    |> Enum.sort_by(fn {_author, count} -> count end, :desc)
   end
 end
