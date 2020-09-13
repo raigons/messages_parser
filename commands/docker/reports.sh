@@ -3,22 +3,46 @@
 container_name="messages_parser"
 
 report () {
-  while getopts ":f:" opt; do
-    case $opt in
-      f) filename="$OPTARG"
-      ;;
-      *) continue;
+  while :
+  do
+    case "$1" in
+      -f | --file)
+        filename=$2
+        shift 2
+        ;;
+      -r | --report)
+        if [ "$2" != "messages_by_user" ] && [ "$2" != "messages_per_day" ]; then
+          echo ":: Report ($2) not available ::"
+          return 0
+        else
+          report_name="$2"
+        fi
+        shift 2
+        ;;
+      -h | --help)
+        echo "\n you must inform one of the following available reports:
+          -r messages_by_user
+          -r messages_per_day"
+        break
+        ;;
+      -*)
+        echo "Error: Unknown option: $1" >&2
+        break
+	      ;;
+      *)  # No more options
+	      break
+	      ;;
     esac
   done
 
-  if [ -z "$filename" ]
-    then
-      echo "No argument supplied"
+  if [ -z "$filename" ] || [ -z "$report_name" ]
+  then
+      echo "\nMissing arguments: both -f and -r are necessary"
       return 0
+  else
+      uploadFileToDocker $filename
+      docker exec -it $container_name mix report.$report_name $(basename $filename)
   fi
-
-  uploadFileToDocker $filename
-  docker exec -it $container_name mix report.messages_by_user $(basename $filename)
 }
 
 uploadFileToDocker () {
