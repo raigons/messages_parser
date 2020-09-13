@@ -28,4 +28,13 @@ defmodule Repository.Record do
   def all_messages(record) do
     Agent.get(record, & &1) |> Map.delete(nil)
   end
+
+  @doc """
+  Returns all stored messages in a flatten list
+  """
+  def all_messages(record, :flatten) do
+    record
+    |> all_messages()
+    |> Enum.flat_map(fn {_author, a_messages} -> a_messages end)
+  end
 end
