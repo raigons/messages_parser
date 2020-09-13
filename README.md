@@ -18,12 +18,18 @@ $ source commands/docker/reports.sh
 ```
 
 This will provide you a command line program `report` which you can use to ask for the reports.
-For now there is only one report which is count messages by users. You need to run this command as:
+For now there is only two reports: count messages by users and count messages per day. You need to run this command as:
 
 ```sh
-$ report -f ../path/to/file
+$ report -f ../path/to/file -r messages_by_user
 ```
-where `-f` is the message file you want to parse. Report result that will be printed on your terminal.
+where `-f` is the message file you want to parse and `-r` is the report report name. Report result that will be printed on your terminal.
+
+If you need to see a list of the available reports, run:
+
+```sh
+$ report -h
+```
 
 ### Local
 Run, sequentially:
@@ -39,9 +45,22 @@ Running locally and getting into iex you can interact directly with the code, ca
 ```elixir
 {:ok, record} = Reader.MessageReader.import(file_path)
 Report.MessagesByUser.count(record)
+# %{"John Doe" => 10, "Someone" => 8}
+
+{:ok, record} = Reader.MessageReader.import(file_path)
+Report.MesssagesPerDay.count(record)
+#%{
+#  ~D[2020-06-07] => 29,
+#  ~D[2020-02-06] => 69,
+#}
 ```
+
 ##### executing mix task via your command lind:
 
 ```sh
 $ mix report.messages_by_user "path/to/file.txt"
+```
+
+```sh
+$ mix report.messages_per_day "path/to/file.txt"
 ```

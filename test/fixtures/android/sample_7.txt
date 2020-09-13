@@ -1,0 +1,3 @@
+11/03/2019 16:05 - As mensagens e as chamadas são protegidas com a criptografia de ponta a ponta e ficam somente entre você e os participantes desta conversa. Nem mesmo o WhatsApp pode ler ou ouvi-las. Toque para saber mais.
+11/03/2019 16:05 - John Doe: hey!
+11/03/2019 16:07 - Ramon: hey!
