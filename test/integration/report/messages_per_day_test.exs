@@ -9,11 +9,11 @@ defmodule Integration.Report.MessagesPerDayTest do
       {:ok, record} = Reader.MessageReader.import(file)
 
       assert Report.MessagesPerDay.count(record) ==
-              [
-                {~D[2020-08-26], 8},
-                {~D[2020-08-27], 5},
-                {~D[2020-08-25], 4}
-              ]
+               [
+                 {~D[2020-08-26], 8},
+                 {~D[2020-08-27], 5},
+                 {~D[2020-08-25], 4}
+               ]
     end
 
     test "loads android messages from file and count by user" do
@@ -22,7 +22,7 @@ defmodule Integration.Report.MessagesPerDayTest do
       {:ok, record} = Reader.MessageReader.import(file)
 
       assert Report.MessagesPerDay.count(record) ==
-                [
+               [
                  {~D[2020-08-26], 8},
                  {~D[2020-08-27], 5},
                  {~D[2020-08-25], 4}
@@ -35,7 +35,7 @@ defmodule Integration.Report.MessagesPerDayTest do
       {:ok, record} = Reader.MessageReader.import(file)
 
       assert Report.MessagesPerDay.count(record) ==
-                [
+               [
                  {~D[2019-03-11], 2}
                ]
     end
