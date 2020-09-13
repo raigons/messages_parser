@@ -169,9 +169,9 @@ defmodule Repository.RecordTest do
       Record.save(record, "John Doe", author_2_message)
 
       assert Record.all_messages(record, :flatten) == [
-         author_2_message,
-         author_1_message
-      ]
+               author_2_message,
+               author_1_message
+             ]
     end
   end
 end

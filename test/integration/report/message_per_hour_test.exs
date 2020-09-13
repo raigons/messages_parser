@@ -9,14 +9,14 @@ defmodule Integration.Report.MessagesPerHourTest do
       {:ok, record} = Reader.MessageReader.import(file)
 
       assert Report.MessagesPerHour.count(record) ==
-      [
-        {2, 6},
-        {3, 4},
-        {9, 3},
-        {10, 2},
-        {8, 1},
-        {5, 1}
-      ]
+               [
+                 {2, 6},
+                 {3, 4},
+                 {9, 3},
+                 {10, 2},
+                 {8, 1},
+                 {5, 1}
+               ]
     end
 
     test "loads android messages from file and count by user" do
@@ -25,14 +25,14 @@ defmodule Integration.Report.MessagesPerHourTest do
       {:ok, record} = Reader.MessageReader.import(file)
 
       assert Report.MessagesPerHour.count(record) ==
-      [
-        {2, 6},
-        {3, 4},
-        {9, 3},
-        {10, 2},
-        {8, 1},
-        {5, 1}
-      ]
+               [
+                 {2, 6},
+                 {3, 4},
+                 {9, 3},
+                 {10, 2},
+                 {8, 1},
+                 {5, 1}
+               ]
     end
   end
 end

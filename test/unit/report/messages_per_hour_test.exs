@@ -29,12 +29,12 @@ defmodule Report.MessagesPerHourTest do
       result = MessagesPerHour.count(record)
 
       assert result == [
-        {10, 4},
-        {12, 2},
-        {11, 2},
-        {16, 1},
-        {8, 1}
-      ]
+               {10, 4},
+               {12, 2},
+               {11, 2},
+               {16, 1},
+               {8, 1}
+             ]
     end
   end
 end
